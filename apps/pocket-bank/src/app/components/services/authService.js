@@ -18,6 +18,9 @@ class AuthService {
         console.log(err.message);
       });
   };
+  logout = () => {
+    return axios.post(`${DEFAULT_URL}logout`).then((res) => res.data);
+  };
   transactions = () => {
     const currentUser = localStorage.getItem('user');
     const userObj = JSON.parse(currentUser);

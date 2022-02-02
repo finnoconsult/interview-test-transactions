@@ -1,12 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/atoms/userAtom';
+import authService from '../services/authService';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate()
   
-  const logoutHandler = () => {
+  const logoutHandler = async() => {
+    await authService.logout();
     setUser({ username: null, loggedIn: false, token: null });
     localStorage.removeItem('user');
     navigate('/login')
