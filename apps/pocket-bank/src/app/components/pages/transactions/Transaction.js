@@ -41,7 +41,7 @@ function Transaction() {
         fromDate={transactions[transactions.length - 1].date}
         totalAmount={allSpending}
       />}
-      <div className="my-2">
+      <div className="my-2 md:flex md:justify-center md:flex-col md:items-center">
         {transactions ? (
           transactions.map((transaction) => (
             <div

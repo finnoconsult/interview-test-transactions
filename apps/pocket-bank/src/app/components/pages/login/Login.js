@@ -40,7 +40,7 @@ function Login() {
           Good to see you back on track <b className="ml-2">{user.username}!</b>{' '}
           👋🏻
         </h1>
-        <div className="flex flex-col space-y-5 md:space-y-0 md:space-x-10 text-xl mt-20">
+        <div className="flex flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-10 text-xl mt-20">
           <Link
             to="/"
             className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
@@ -48,10 +48,10 @@ function Login() {
             Home
           </Link>
           <Link
-            to="/task"
+            to="/transactions"
             className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
           >
-            Task
+            My Transactions
           </Link>
         </div>
       </div>
