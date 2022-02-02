@@ -3,8 +3,11 @@ import * as bodyParser from 'body-parser';
 import { Health } from '@interview-homework-transaction-list/api-interfaces';
 import { transactions, partners } from './data/db.json';
 import { User, UserInterface } from './app/User';
+import cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 const jsonParser = bodyParser.json();
 
@@ -39,6 +42,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/banking', function (req, res, next) {
   const bearerToken = req.headers.authorization?.match(/^Bearer (.*)$/);
+  console.log(bearerToken);
   if (!bearerToken?.[1] || user?.token !== bearerToken[1]) {
     res.status(403);
     res.send({ error: 'not authorized' });

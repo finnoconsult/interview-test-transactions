@@ -1,33 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Health } from '@interview-homework-transaction-list/api-interfaces';
-import Styled from '@emotion/styled';
-
-const WelcomeStyles = Styled.div`
-  display: flex;
-  width: 100%;
-  background-color: rgba(0, 189, 89, 1);
-  padding: 10px;
-  background-image: url();
-
-  h1 {
-    margin: auto;
-  }
-  img {
-    position: absolute;
-    top: 16px;
-    let: 20px;
-  }
-`;
-
-const Welcome = () => (
-  <WelcomeStyles>
-    <img src="./assets/logo.svg" alt="Finno" width="180px" />
-    <h1>Welcome to pocket-bank exercise!</h1>
-  </WelcomeStyles>
-);
+import authService from './components/services/authService';
 
 const Instructions = () => (
-  <div>
+  <div className="bg-green-500 min-h-screen">
     <h3>Your tasks are:</h3>
     <ul>
       <li>
@@ -117,15 +93,18 @@ export const App = () => {
 
   useEffect(() => {
     // 💡 NOTE: window.fetch is deprecated, it's expected to be replaced by a proper networking solution
-    fetch('/api/health')
+    /* fetch('/api/health')
       .then((r) => r.json())
-      .then(setHealth);
+      .then(setHealth); */
+    async function health() {
+      const res = await authService.healthCheck();
+      setHealth(res)
+    }
+    health();
   }, []);
 
   return (
     <div>
-      <Welcome />
-
       <h3>
         Server status: {health.status}
         {health.started && (
