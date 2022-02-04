@@ -25,7 +25,6 @@ class AuthService {
     const currentUser = localStorage.getItem('user');
     const userObj = JSON.parse(currentUser);
     const token = userObj.token;
-
     return axios
       .get(`${DEFAULT_URL}banking/transactions`, {
         headers: {

@@ -1,76 +1,57 @@
-import { useEffect, useState } from 'react';
-import authService from '../../services/authService';
-import TransactionHeader from './TransactionHeader';
+import { useEffect, useRef } from 'react';
+import { useRecoilState } from 'recoil';
+import { weekState } from '../../recoil/atoms/weekAtom';
+import currentWeekNumber from 'current-week-number';
 
-function Transaction() {
-  const [transactions, setTransactions] = useState(null);
-  const [allSpending, setAllSpending] = useState(null);
-  const [currency, setCurrency] = useState(null);
+function Transaction({ amount, title, currency, date, weeklyDate }) {
+  const [dateState, setDateState] = useRecoilState(weekState);
+  const dateRef = useRef();
 
-  function sortFunction(arr) {
-    arr.sort(function (t1, t2) {
-      const date1 = new Date(t1.date);
-      const date2 = new Date(t2.date);
-      return date1 - date2;
-    });
-    return arr.reverse();
-  }
-
-  function allMySpending(arr) {
-    const sum = arr.reduce((acc, curr) => acc + curr.amount, 0);
-    return setAllSpending(sum.toFixed(2));
-  }
+  const handleScroll = () => {
+    const lastScrollTop = 0;
+    const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+    console.log(st);
+    if (st > lastScrollTop) {
+      if (
+        dateRef?.current?.getBoundingClientRect().top < 50 &&
+        dateRef?.current?.getBoundingClientRect().top > -50
+      ) {
+        setDateState({
+          week: currentWeekNumber(new Date(date)),
+          year: new Date(date).getFullYear(),
+        });
+      }
+    } else return;
+  };
 
   useEffect(() => {
-    async function getTransactions() {
-      const res = await authService.transactions();
-      if (res) {
-        setTransactions(sortFunction(res));
-        allMySpending(res);
-        setCurrency(res[0].currency);
-      }
-    }
-    getTransactions();
-  }, []);
-
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
   return (
-    <div className="bg-[#f2f2f2] min-h-screen flex flex-col max-w-screen-2xl">
-      {transactions&&<TransactionHeader
-        currency={currency}
-        toDate={transactions[0].date}
-        fromDate={transactions[transactions.length - 1].date}
-        totalAmount={allSpending}
-      />}
-      <div className="my-2 md:flex md:justify-center md:flex-col md:items-center">
-        {transactions ? (
-          transactions.map((transaction) => (
-            <div
-              className="flex items-center relative px-5"
-              key={
-                transaction.title +
-                Math.floor(Math.random() * (9999 - 1000 + 1)) +
-                1000
-              }
-            >
-              <div className="w-96 border my-5 rounded-full p-2 flex items-center justify-between">
-                <p>{transaction.title}</p>
-                <p
-                  className={`${
-                    transaction.amount > 0 ? 'text-green-600' : 'text-red-500'
-                  }`}
-                >
-                  {transaction.amount}
-                  {transaction.currency}
-                </p>
-              </div>
-              <p className="text-[10px] absolute bottom-0 left-7 text-gray-400">
-                {transaction.date}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>loading...</p>
+    <div
+      className={`w-full flex items-center ${
+        amount < 0 ? 'justify-end' : 'justify-start'
+      }`}
+    >
+      <div
+        className={`border space-x-2 my-5 rounded-full p-2 flex items-center justify-between`}
+      >
+        {weeklyDate && (
+          <p
+            ref={dateRef}
+            className="text-[10px] absolute top-0 left-1/2 transform -translate-x-1/2 text-gray-400"
+          >
+            {date}
+          </p>
         )}
+        <p>{title}</p>
+        <p className={`${amount > 0 ? 'text-green-600' : 'text-red-500'}`}>
+          {amount}
+          {currency}
+        </p>
       </div>
     </div>
   );

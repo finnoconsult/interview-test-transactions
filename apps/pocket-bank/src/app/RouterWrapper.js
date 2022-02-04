@@ -7,7 +7,7 @@ import '../index.css';
 import { userState } from './components/recoil/atoms/userAtom';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import Transaction from './components/pages/transactions/Transaction';
+import Transaction from './components/pages/transactions/Transactions';
 
 function RouterWrapper() {
   const [user, setUser] = useRecoilState(userState);

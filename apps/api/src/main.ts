@@ -25,8 +25,6 @@ app.post('/api/login', jsonParser, (req, res) => {
   }
 });
 app.post('/api/logout', jsonParser, (req, res) => {
-  console.log('Request Type:', req);
-  console.log('Request content:', req.body);
   user = null;
   res.status(200);
   res.send({ token: null });
