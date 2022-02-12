@@ -28,8 +28,10 @@ function Transaction({ index, amount, title, currency, date }: TransactionObj) {
         dateRef?.current?.getBoundingClientRect().top > -50
       ) {
         setDateState({
-          week: currentWeekNumber(new Date(date)),
+          fullDate: date,
           year: new Date(date).getFullYear(),
+          week: currentWeekNumber(new Date(date)),
+          scrolled: true,
         });
       }
     };

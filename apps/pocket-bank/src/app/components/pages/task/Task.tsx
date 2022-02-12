@@ -19,12 +19,22 @@ export const Task = () => {
   }, []);
 
   return (
-    <div>
-      <h3>
-        Server status: {health.status}
+    <div className="p-5">
+      <h3 className="mb-5">
+        Server status:{' '}
+        <span
+          className={`${
+            health.status === 'OK' ? 'text-green-500' : 'text-red-500'
+          }`}
+        >
+          {health.status}
+        </span>
         {health.started && (
           <small>
-            , running since: {new Date(health.started).toString().substr(0, 28)}
+            , running since:{' '}
+            <span className="text-transparent bg-gradient-to-r from-black to-blue-500 bg-clip-text">
+              {new Date(health.started).toString().substr(0, 28)}
+            </span>
           </small>
         )}
       </h3>

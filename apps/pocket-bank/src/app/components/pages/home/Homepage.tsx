@@ -17,20 +17,14 @@ function Homepage() {
           className="h-20 w-20 rounded-full"
         />
         <h1 className="text-3xl">
-          Hi {user.loggedIn ? user.username : 'Guest'}!
+          Hi <b>{user.username}</b>!
         </h1>
       </div>
       <div className="flex flex-col md:flex-row md:space-x-10 md:space-y-0 text-center space-y-5 text-xl">
-        <Link
-          to="/task"
-          className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
-        >
+        <Link to="/task" className="button">
           Task
         </Link>
-        <Link
-          to="/transactions"
-          className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
-        >
+        <Link to="/transactions" className="button">
           My Transactions
         </Link>
       </div>

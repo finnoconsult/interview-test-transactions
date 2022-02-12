@@ -13,6 +13,7 @@ function Header() {
     localStorage.removeItem('user');
     navigate('/login');
   };
+
   return (
     <header className="h-16 flex items-center bg-gradient-to-r from-blue-500 to-cyan-200 p-2 px-4 justify-between">
       <Link to="/">
@@ -25,18 +26,11 @@ function Header() {
       </Link>
       <Link to={`${user.loggedIn ? '/' : '/login'}`}>
         {user.loggedIn && (
-          <button
-            className="rounded-lg bg-black text-white p-2 hover:text-blue-500 transition-all duration-300"
-            onClick={logoutHandler}
-          >
+          <button className="button" onClick={logoutHandler}>
             Sign out
           </button>
         )}
-        {!user.loggedIn && (
-          <button className="rounded-lg bg-black text-white p-2 hover:text-green-500 transition-all duration-300">
-            Sign in
-          </button>
-        )}
+        {!user.loggedIn && <button className="button">Sign in</button>}
       </Link>
     </header>
   );

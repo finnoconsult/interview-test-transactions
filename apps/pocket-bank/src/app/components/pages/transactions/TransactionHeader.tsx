@@ -10,7 +10,7 @@ interface Props {
 
 const TransactionHeader = ({ currency }: Props) => {
   const [transactions] = useRecoilState(transactionState);
-  const [dateState] = useRecoilState(weekState);
+  const [dateState, setDateState] = useRecoilState(weekState);
   const [weeklySpending, setWeeklySpending] = useState<string | null>(null);
   const [allSpending, setAllSpending] = useState<string | null>(null);
 
@@ -28,7 +28,16 @@ const TransactionHeader = ({ currency }: Props) => {
   useEffect(() => {
     const sum = transactions.reduce((acc, curr) => acc + curr.amount, 0);
     setAllSpending(sum.toFixed(2));
-  }, [transactions]);
+    const fromStartToNow = `${transactions[0]?.date}-${
+      transactions[transactions.length - 1]?.date
+    }`;
+    setDateState({
+      fullDate: fromStartToNow,
+      year: new Date('2021.02.20').getFullYear(),
+      week: currentWeekNumber(new Date('2021.02.20')),
+      scrolled: false,
+    });
+  }, [transactions, setDateState]);
 
   useEffect(() => {
     weeklySpendings();
@@ -36,9 +45,7 @@ const TransactionHeader = ({ currency }: Props) => {
 
   return (
     <section className="sticky top-0 text-[12px] text-gray-400 px-2 h-10 bg-gray-200 z-40 shadow-md flex items-center justify-between">
-      <p>
-        {dateState.year}-{dateState.week}
-      </p>
+      <p>{dateState.fullDate}</p>
       <p
         className={
           weeklySpending && +weeklySpending > 0
@@ -47,7 +54,7 @@ const TransactionHeader = ({ currency }: Props) => {
         }
       >
         {currency}
-        {weeklySpending ? weeklySpending : allSpending}
+        {dateState.scrolled ? weeklySpending : allSpending}
       </p>
     </section>
   );

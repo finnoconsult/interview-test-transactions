@@ -36,16 +36,10 @@ function Login() {
           👋🏻
         </h1>
         <div className="flex flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-10 text-xl mt-20">
-          <Link
-            to="/"
-            className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
-          >
+          <Link to="/" className="button">
             Home
           </Link>
-          <Link
-            to="/transactions"
-            className="border border-gray-500 bg-gray-50 p-2 px-5 rounded-full"
-          >
+          <Link to="/transactions" className="button">
             My Transactions
           </Link>
         </div>
@@ -78,10 +72,7 @@ function Login() {
         </label>
         {message && <p className="font-semibold text-red-500">{message}</p>}
 
-        <button
-          type="submit"
-          className="bg-black text-white p-2 rounded-lg hover:text-green-500 transition-all duration-300 ease-in-out"
-        >
+        <button type="submit" className="button">
           Sign In
         </button>
       </form>

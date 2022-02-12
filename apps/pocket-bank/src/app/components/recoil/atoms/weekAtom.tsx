@@ -1,10 +1,18 @@
 import { atom } from 'recoil';
-import currentWeekNumber from 'current-week-number';
+
+interface DateInterface {
+  fullDate: string | null | Date;
+  year: number | null;
+  week: number | null;
+  scrolled: boolean;
+}
 
 export const weekState = atom({
   key: 'weekState',
   default: {
-    year: new Date('2021.02.20').getFullYear(),
-    week: currentWeekNumber(new Date('2021.02.20')),
-  },
+    fullDate: null,
+    year: null,
+    week: null,
+    scrolled: false,
+  } as DateInterface,
 });

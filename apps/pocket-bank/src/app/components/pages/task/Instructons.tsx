@@ -1,11 +1,11 @@
 function Instructions() {
   return (
     <div className="min-h-screen">
-      <h3 className="">Your tasks are:</h3>
-      <ul>
+      <h3 className="font-bold text-xl underline">Your tasks are:</h3>
+      <ul className="list-disc list-inside">
         <li>
           Login Page
-          <ul>
+          <ul className="list-disc list-inside md:ml-6 text-gray-600">
             <li>Create a Login page layout</li>
             <li>Login form shall have username and password</li>
             <li>
@@ -14,15 +14,18 @@ function Instructions() {
             <li>Store authentication (JWT) data from response</li>
           </ul>
         </li>
-        <li>
+
+        <li className="mt-4">
           Transaction list page
-          <ul>
+          <ul className="list-disc list-inside md:ml-6 text-gray-600">
             <li>Create page layout</li>
             <li>
               Retrieve transactions data from the server from{' '}
               <u>/api/banking/transaction</u> endpoint
-              <ul>
-                Help of <b>functional programming on Arrays</b>:
+              <p className="mt-4 text-black">
+                Help of functional programming on Arrays
+              </p>
+              <ul className="list-disc list-inside md:ml-5">
                 <li>Sort list by date descending</li>
                 <li>
                   generate and add unique id for all items (range 1000-9999),
@@ -39,9 +42,9 @@ function Instructions() {
                 </li>
               </ul>
             </li>
-            <li>
+            <li className="mt-5">
               Create list render component
-              <ul>
+              <ul className="list-disc list-inside md:ml-6">
                 <li>
                   Layout & behavior to be followed:
                   <a
@@ -71,13 +74,16 @@ function Instructions() {
           </ul>
         </li>
       </ul>
-      <a
-        href="https://github.com/finnoconsult/interview-test-transactions/blob/master/README.md"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Further info and instructions
-      </a>
+      <div className="mt-5 text-center">
+        <a
+          href="https://github.com/finnoconsult/interview-test-transactions/blob/master/README.md"
+          target="_blank"
+          rel="noreferrer"
+          className="button"
+        >
+          Further info and instructions
+        </a>
+      </div>
     </div>
   );
 }
