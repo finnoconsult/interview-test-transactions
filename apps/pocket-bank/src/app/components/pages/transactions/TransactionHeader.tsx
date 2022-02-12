@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { transactionState } from '../../recoil/atoms/transactionsAtom';
 import { weekState } from '../../recoil/atoms/weekAtom';
 import currentWeekNumber from 'current-week-number';
 
-function TransactionHeader({ currency }) {
-  const [transactions, setTransactions] = useRecoilState(transactionState);
-  const [dateState, setDateState] = useRecoilState(weekState);
-  const [weeklySpending, setWeeklySpending] = useState(null);
-  const [allSpending, setAllSpending] = useState(null);
+interface Props {
+  currency: string;
+}
 
-  const weeklySpendings = () => {
+const TransactionHeader = ({ currency }: Props) => {
+  const [transactions] = useRecoilState(transactionState);
+  const [dateState] = useRecoilState(weekState);
+  const [weeklySpending, setWeeklySpending] = useState<string | null>(null);
+  const [allSpending, setAllSpending] = useState<string | null>(null);
+
+  const weeklySpendings = useCallback(() => {
     const sum = transactions
       .filter(
         (trans) =>
@@ -19,28 +23,34 @@ function TransactionHeader({ currency }) {
       )
       .reduce((acc, curr) => acc + curr.amount, 0);
     setWeeklySpending(sum.toFixed(2));
-  };
+  }, [dateState.week, dateState.year, transactions]);
 
   useEffect(() => {
     const sum = transactions.reduce((acc, curr) => acc + curr.amount, 0);
     setAllSpending(sum.toFixed(2));
-  }, []);
+  }, [transactions]);
 
   useEffect(() => {
     weeklySpendings();
-  }, [dateState.week, dateState.year]);
+  }, [weeklySpendings]);
 
   return (
     <section className="sticky top-0 text-[12px] text-gray-400 px-2 h-10 bg-gray-200 z-40 shadow-md flex items-center justify-between">
       <p>
         {dateState.year}-{dateState.week}
       </p>
-      <p className={weeklySpending > 0 ? 'text-green-600' : 'text-red-500'}>
+      <p
+        className={
+          weeklySpending && +weeklySpending > 0
+            ? 'text-green-600'
+            : 'text-red-500'
+        }
+      >
         {currency}
         {weeklySpending ? weeklySpending : allSpending}
       </p>
     </section>
   );
-}
+};
 
 export default TransactionHeader;

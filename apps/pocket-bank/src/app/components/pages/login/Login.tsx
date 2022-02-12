@@ -2,25 +2,20 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userAtom';
-import authService from '../../services/authService';
-import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../services/authService';
+import { Link } from 'react-router-dom';
+import { CurrentUser, UserProps } from '../../../../typings/User';
 
 function Login() {
-  const [message, setMessage] = useState(null);
-  const navigate = useNavigate();
+  const [message, setMessage] = useState('');
   const [user, setUser] = useRecoilState(userState);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm<UserProps>();
 
-  const onSubmit = async (data) => {
-    const res = await authService.login(data.username, data.password);
+  const onSubmit = async (data: UserProps) => {
+    const res = await login(data.username, data.password);
     if (res) {
-      const currentUser = {
+      const currentUser: CurrentUser = {
         username: data.username,
         token: res.token,
         loggedIn: true,
@@ -82,7 +77,6 @@ function Login() {
           />
         </label>
         {message && <p className="font-semibold text-red-500">{message}</p>}
-        {errors.exampleRequired && <span>This field is required</span>}
 
         <button
           type="submit"

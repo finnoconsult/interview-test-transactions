@@ -1,20 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/atoms/userAtom';
-import authService from '../services/authService';
+import { logout } from '../services/authService';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
-  const navigate = useNavigate()
-  
-  const logoutHandler = async() => {
-    await authService.logout();
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    await logout();
     setUser({ username: null, loggedIn: false, token: null });
     localStorage.removeItem('user');
-    navigate('/login')
+    navigate('/login');
   };
   return (
-  <header className="h-16 flex items-center bg-gradient-to-r from-blue-500 to-cyan-200 p-2 px-4 justify-between">
+    <header className="h-16 flex items-center bg-gradient-to-r from-blue-500 to-cyan-200 p-2 px-4 justify-between">
       <Link to="/">
         <img
           className="header__logo"

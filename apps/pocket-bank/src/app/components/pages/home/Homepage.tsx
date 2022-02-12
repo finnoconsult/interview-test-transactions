@@ -3,8 +3,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userAtom';
 
 function Homepage() {
-  const [user, setUser] = useRecoilState(userState);
-
+  const [user] = useRecoilState(userState);
   return (
     <div className="flex flex-col bg-[#f2f2f2] min-h-screen  justify-center items-center space-y-20">
       <div className="flex items-center space-x-4 -mt-20">
@@ -14,6 +13,7 @@ function Homepage() {
               ? '../assets/avatar.jpeg'
               : '../assets/guest.png'
           }
+          alt="user profile avatar"
           className="h-20 w-20 rounded-full"
         />
         <h1 className="text-3xl">
