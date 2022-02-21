@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .button {
+    @apply rounded-lg bg-black text-white p-2 hover:text-cyan-200 transition-all duration-300;
+  }
+}

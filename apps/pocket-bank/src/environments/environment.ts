@@ -3,4 +3,5 @@
 
 export const environment = {
   production: false,
+  DEFAULT_URL: 'http://localhost:3333/api/',
 };
